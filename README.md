@@ -97,3 +97,15 @@ If your specification asks for a car, don't build the wheels in the first week, 
 5. Create a branch.
 6. Add the user stories to the README.
 7. Use the [developer workflow](#developer-workflow) to get the README merged into master.
+
+### User Stories
+
+```
+
+As a User,
+So that I can access the website,
+I want to sign up.
+
+As a User,
+So that I can manage my account,
+I want to be able to log back in to my own account.
