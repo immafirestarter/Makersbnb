@@ -7,7 +7,8 @@ const app = express();
 const db = require('./server/models')
 
 app.use(logger('dev'));
-app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
