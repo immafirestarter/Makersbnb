@@ -4,16 +4,17 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var index = require('./routes/index');
-var users = require('./routes/users');
 var signup = require('./routes/signup');
+var createUser = require('./routes/createUser');
+var home = require('./routes/home');
+var welcome = require('./routes/welcome');
 const port = 3000
 
 var app = express();
 
 app.listen(port, (err) => {
   if (err) {
-    return console.log('Error:', err)
+    return console.log('error:', err)
   }
 
   console.log(`server is listening on ${port}`)
@@ -21,9 +22,13 @@ app.listen(port, (err) => {
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'ejs');
 app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
+
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -33,9 +38,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use('/', home);
 app.use('/signup', signup);
+app.use('/createUser', createUser);
+app.use('/welcome', welcome);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -60,7 +66,12 @@ app.get('/test', (request, response) => {
 });
 
 app.get('/home', function(req, res) {
-    res.sendFile('views/layouts/home.html', {root: __dirname })
+  res.sendFile('views/layouts/home.html', {root: __dirname })
 });
+
+app.post("/createUser", function (req, res) {
+    console.log(req.body.user.name)
+});
+
 
 module.exports = app;

@@ -1,0 +1,24 @@
+<script type=“text/javascript” src=“ejs_production.js”></script>
+<head>
+</head>
+
+<body>
+  This main page is working.
+  <form id="loginform" action="/createUser" method="post">
+    <div>
+        <label for="firstName">First Name: </label>
+        <input type="text" id="firstName" name="firstName"></input>
+        <label for="lastName">Last Name: </label>
+        <input type="text" id="lastName" name="lastName"></input>
+        <label for="DOB">Date of Birth: </label>
+        <input type="date" id="dob" name="dob"></input>
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email"></input>
+        <label for="userName">UserName: </label>
+        <input type="text" id="userName" name="userName"></input>
+        <label for="password">Password: </label>
+        <input type="password" id="password" name="password"></input>
+    </div>
+  <input type="submit" value="Submit"></input>
+  </form>
+</body>
