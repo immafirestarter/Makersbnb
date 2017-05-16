@@ -1,66 +1,36 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var index = require('./routes/index');
-var users = require('./routes/users');
-var signup = require('./routes/signup');
-const port = 3000
+const express = require('express');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
 
-var app = express();
+// Set up the express app
+const app = express();
 
-app.listen(port, (err) => {
-  if (err) {
-    return console.log('Error:', err)
-  }
+const db = require('./server/models')
 
-  console.log(`server is listening on ${port}`)
-})
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.engine('html', require('ejs').renderFile);
-app.set('view engine', 'html');
-
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+// Log requests to the console.
 app.use(logger('dev'));
+
+app.set('view engine', 'ejs');
+
+// Parse incoming requests data (https://github.com/expressjs/body-parser)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
-app.use('/signup', signup);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+const Todo = db.Todo;
+
+app.get('/users', function(req, res) {
+  Todo.findAll()
+    .then(function (todos) {
+      res.json(todos[0].title);
+    });
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-app.get('/test', (request, response) => {
-  response.send('Hello from Express!')
-});
-
-app.get('/home', function(req, res) {
-    res.sendFile('views/layouts/home.html', {root: __dirname })
-});
+// Require our routes into the application.
+require('./server/routes')(app);
+// Setup a default catch-all route that sends back a welcome message in JSON format.
+app.get('*', (req, res) => res.status(200).send({
+  message: 'Welcome to the beginning of nothingness.',
+}));
 
 module.exports = app;
