@@ -5,7 +5,10 @@ module.exports = {
   create(req, res) {
     return User
       .create({
-        title: req.body.title,
+        name: req.body.name,
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
       })
       .then((user) => res.status(201).send(user))
       .catch((error) => res.status(400).send(error));
@@ -62,7 +65,7 @@ module.exports = {
         }
         return user
           .update({
-            title: req.body.title || user.title,
+            name: req.body.name || user.name,
           })
           .then(() => res.status(200).send(user))
           .catch((error) => res.status(400).send(error));
