@@ -1,58 +1,58 @@
-const TodoItem = require('../models').TodoItem;
+const Listing = require('../models').Listing;
 
 module.exports = {
   create(req, res) {
-    return TodoItem
+    return Listing
       .create({
         content: req.body.content,
-        todoId: req.params.todoId,
+        userId: req.params.userId,
       })
-      .then(todoItem => res.status(201).send(todoItem))
+      .then(listing => res.status(201).send(listing))
       .catch(error => res.status(400).send(error));
   },
 
   update(req, res) {
-    return TodoItem
+    return Listing
       .find({
         where: {
-          id: req.params.todoItemId,
-          todoId: req.params.todoId,
+          id: req.params.listingId,
+          userId: req.params.userId,
         },
       })
-      .then(todoItem => {
-        if (!todoItem) {
+      .then(listing => {
+        if (!listing) {
           return res.status(404).send({
-            message: 'TodoItem Not Found',
+            message: 'Listing Not Found',
           });
         }
 
-        return todoItem
+        return listing
           .update({
-            content: req.body.content || todoItem.content,
-            complete: req.body.complete || todoItem.complete,
+            content: req.body.content || listing.content,
+            complete: req.body.complete || listing.complete,
           })
-          .then(updatedTodoItem => res.status(200).send(updatedTodoItem))
+          .then(updatedListing => res.status(200).send(updatedListing))
           .catch(error => res.status(400).send(error));
       })
       .catch(error => res.status(400).send(error));
   },
 
   destroy(req, res) {
-    return TodoItem
+    return Listing
       .find({
         where: {
-          id: req.params.todoItemId,
-          todoId: req.params.todoId,
+          id: req.params.listingId,
+          userId: req.params.userId,
         },
       })
-      .then(todoItem => {
-        if (!todoItem) {
+      .then(listing => {
+        if (!listing) {
           return res.status(404).send({
-            message: 'TodoItem Not Found',
+            message: 'Listing Not Found',
           });
         }
 
-        return todoItem
+        return listing
           .destroy()
           .then(() => res.status(204).send())
           .catch(error => res.status(400).send(error));

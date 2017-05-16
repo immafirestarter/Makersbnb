@@ -11,12 +11,20 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-const Todo = db.Todo;
+const User = db.User;
+const Listing = db.Listing;
 
 app.get('/users', function(req, res) {
-  Todo.findAll()
-    .then(function (Todo) {
-      res.json(Todo[0].title);
+  User.findAll()
+    .then(function (User) {
+      res.json(User);
+    });
+});
+
+app.get('/listings', function(req, res) {
+  Listing.findAll()
+    .then(function (Listing) {
+      res.json(Listing);
     });
 });
 

@@ -1,85 +1,85 @@
-const Todo = require('../models').Todo;
-const TodoItem = require('../models').TodoItem;
+const User = require('../models').User;
+const Listing = require('../models').Listing;
 
 module.exports = {
   create(req, res) {
-    return Todo
+    return User
       .create({
         title: req.body.title,
       })
-      .then((todo) => res.status(201).send(todo))
+      .then((user) => res.status(201).send(user))
       .catch((error) => res.status(400).send(error));
   },
 
   list(req, res) {
-    return Todo
+    return User
       .findAll({
         include: [{
-          model: TodoItem,
-          as: 'todoItems',
+          model: Listing,
+          as: 'listings',
         }],
         order: [
           ['createdAt', 'DESC'],
-          [{ model: TodoItem, as: 'todoItems' }, 'createdAt', 'ASC'],
+          [{ model: Listing, as: 'listings' }, 'createdAt', 'ASC'],
         ],
       })
-      .then((todos) => res.status(200).send(todos))
+      .then((users) => res.status(200).send(users))
       .catch((error) => res.status(400).send(error));
   },
 
   retrieve(req, res) {
-    return Todo
-      .findById(req.params.todoId, {
+    return User
+      .findById(req.params.userId, {
         include: [{
-          model: TodoItem,
-          as: 'todoItems',
+          model: Listing,
+          as: 'listings',
         }],
       })
-      .then((todo) => {
-        if (!todo) {
+      .then((user) => {
+        if (!user) {
           return res.status(404).send({
-            message: 'Todo Not Found',
+            message: 'User Not Found',
           });
         }
-        return res.status(200).send(todo);
+        return res.status(200).send(user);
       })
       .catch((error) => res.status(400).send(error));
   },
 
   update(req, res) {
-    return Todo
-      .findById(req.params.todoId, {
+    return User
+      .findById(req.params.userId, {
         include: [{
-          model: TodoItem,
-          as: 'todoItems',
+          model: Listing,
+          as: 'listings',
         }],
       })
-      .then(todo => {
-        if (!todo) {
+      .then(user => {
+        if (!user) {
           return res.status(404).send({
-            message: 'Todo Not Found',
+            message: 'User Not Found',
           });
         }
-        return todo
+        return user
           .update({
-            title: req.body.title || todo.title,
+            title: req.body.title || user.title,
           })
-          .then(() => res.status(200).send(todo))
+          .then(() => res.status(200).send(user))
           .catch((error) => res.status(400).send(error));
       })
       .catch((error) => res.status(400).send(error));
   },
 
   destroy(req, res) {
-    return Todo
-      .findById(req.params.todoId)
-      .then(todo => {
-        if (!todo) {
+    return User
+      .findById(req.params.userId)
+      .then(user => {
+        if (!user) {
           return res.status(400).send({
-            message: 'Todo Not Found',
+            message: 'User Not Found',
           });
         }
-        return todo
+        return user
           .destroy()
           .then(() => res.status(204).send())
           .catch((error) => res.status(400).send(error));

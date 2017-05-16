@@ -1,18 +1,18 @@
 module.exports = (sequelize, DataTypes) => {
-  const Todo = sequelize.define('Todo', {
-    title: {
+  const Listing = sequelize.define('Listing', {
+    content: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   }, {
     classMethods: {
       associate: (models) => {
-        Todo.hasMany(models.TodoItem, {
-          foreignKey: 'todoId',
-          as: 'todoItems',
+        Listing.belongsTo(models.User, {
+          foreignKey: 'content',
+          onDelete: 'CASCADE',
         });
       },
     },
   });
-  return Todo;
+  return Listing;
 };

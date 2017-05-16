@@ -1,23 +1,23 @@
-const todosController = require('../controllers').todos;
-const todoItemsController = require('../controllers').todoItems;
+const usersController = require('../controllers').users;
+const listingsController = require('../controllers').listings;
 
 module.exports = (app) => {
   app.get('/api', (req, res) => res.status(200).send({
-    message: 'Welcome to the Todos API!',
+    message: 'Welcome to the Users API!',
   }));
 
-  app.post('/api/todos', todosController.create);
-  app.get('/api/todos', todosController.list);
-  app.get('/api/todos/:todoId', todosController.retrieve);
-  app.put('/api/todos/:todoId', todosController.update);
-  app.delete('/api/todos/:todoId', todosController.destroy);
+  app.post('/api/users', usersController.create);
+  app.get('/api/users', usersController.list);
+  app.get('/api/users/:listing', usersController.retrieve);
+  app.put('/api/users/:userId', usersController.update);
+  app.delete('/api/users/:userId', usersController.destroy);
 
-  app.post('/api/todos/:todoId/items', todoItemsController.create);
-  app.put('/api/todos/:todoId/items/:todoItemId', todoItemsController.update);
+  app.post('/api/users/:userId/items', listingsController.create);
+  app.put('/api/users/:userId/items/:listingId', listingsController.update);
   app.delete(
-    '/api/todos/:todoId/items/:todoItemId', todoItemsController.destroy
+    '/api/users/:userId/items/:listingId', listingsController.destroy
   );
-  app.all('/api/todos/:todoId/items', (req, res) => res.status(405).send({
+  app.all('/api/users/:userId/items', (req, res) => res.status(405).send({
     message: 'Method Not Allowed',
   }));
 };
