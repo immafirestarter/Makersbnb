@@ -3,9 +3,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('client-sessions');
 const path = require('path');
-
 const app = express();
-
 const db = require('./server/models')
 
 
@@ -43,15 +41,16 @@ app.post('/user/new', function(req, res) {
     req.currentUser.user = User.findAll({where: {username: req.body.username}});
   }, 300))
   .then(setTimeout(function() {
-    res.redirect('/session')
+    res.redirect('/welcome')
   }, 500))
 });
 
-app.get('/session', function(req, res) {
+app.get('/welcome', function(req, res) {
   if (req.currentUser.user) {
-    var username = req.currentUser.user.fulfillmentValue[0].username;
+    var currentUser = req.currentUser.user.fulfillmentValue[0]
     res.render(path.resolve('views/home.html'), {
-      userName: username,
+      username: currentUser.username,
+      name: currentUser.name,
     });
   } else {
     console.log("NO BDDY");
