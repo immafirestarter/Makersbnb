@@ -24,6 +24,16 @@ app.get('/test', function(req, res) {
     });
 });
 
+app.post('/user/new', function(req, res) {
+  User.create({
+    name: req.body.name,
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+  })
+  .then(res.redirect('/test'))
+});
+
 app.get('/listings', function(req, res) {
   Listing.findAll()
     .then(function (Listing) {
