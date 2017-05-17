@@ -75,6 +75,22 @@ app.get('/listings', function(req, res) {
     });
 });
 
+app.get('/logout', function(req, res) {
+  req.currentUser.reset();
+  res.render(path.resolve('views/logout.html'));
+})
+
+app.get('/login', function(req, res) {
+  res.render(path.resolve('views/login.html'));
+})
+
+app.post('/user/login', function(req, res) {
+    req.currentUser.user = User.findAll({where: {username: req.body.username}})
+  .then(setTimeout(function() {
+    res.redirect('/welcome')
+  }, 500))
+});
+
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
