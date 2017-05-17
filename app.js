@@ -8,7 +8,7 @@ const db = require('./server/models')
 
 
 app.use(session({
-  cookieName: 'currentUser',
+  cookieName: 'session',
   secret: 'very_secret_super_secret',
 }));
 
@@ -27,7 +27,6 @@ app.get('/test', function(req, res) {
     .then(function (User) {
       res.json(User);
     })
-    // .next(console.log(req.currentUser.user.name))
 });
 
 app.post('/user/new', function(req, res) {
@@ -36,36 +35,28 @@ app.post('/user/new', function(req, res) {
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
+  }).then(function(user) {
+    req.session.user = user;
   })
-  .then(setTimeout(function() {
-    req.currentUser.user = User.findAll({where: {username: req.body.username}});
-  }, 300))
   .then(setTimeout(function() {
     res.redirect('/welcome')
   }, 500))
 });
 
 app.get('/welcome', function(req, res) {
-  if (req.currentUser.user) {
-    var currentUser = req.currentUser.user.fulfillmentValue[0]
+  if (req.session.user) {
+    var currentUser = req.session.user
     res.render(path.resolve('views/home.html'), {
       username: currentUser.username,
       name: currentUser.name,
     });
   } else {
-    console.log("NO BDDY");
+    res.redirect('/signup')
   };
 });
 
 app.get('/signup', function(req, res) {
-  res.render(path.resolve('views/index.html'), {
-    string: 'random_value',
-    other: 'value'
-  });
-});
-
-app.get('/userfind', function(req, res) {
-  var success = User.findAll({where: {id: 1}}).then(function (currentUser) { res.json(currentUser[0]) });
+  res.render(path.resolve('views/index.html'));
 });
 
 app.get('/listings', function(req, res) {
@@ -76,7 +67,7 @@ app.get('/listings', function(req, res) {
 });
 
 app.get('/logout', function(req, res) {
-  req.currentUser.reset();
+  req.session.reset();
   res.render(path.resolve('views/logout.html'));
 })
 
@@ -85,11 +76,18 @@ app.get('/login', function(req, res) {
 })
 
 app.post('/user/login', function(req, res) {
-    req.currentUser.user = User.findAll({where: {username: req.body.username}})
-  .then(setTimeout(function() {
-    res.redirect('/welcome')
-  }, 500))
+  User.find({ where: { username: req.body.username, password: req.body.password }}).then(function(user) {
+      if (!user) {
+        res.redirect('/signup')
+      } else {
+        req.session.user = user;
+        res.redirect('/welcome')
+      }
+    }).catch(function(err) {
+      console.log('Error')
+    });
 });
+
 
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
@@ -97,5 +95,3 @@ app.get('*', (req, res) => res.status(200).send({
 }));
 
 module.exports = app;
-
-//git comment
