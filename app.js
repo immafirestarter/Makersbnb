@@ -2,6 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('client-sessions');
+const path = require('path');
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(session({
   cookieName: 'currentUser',
   secret: 'very_secret_super_secret',
 }));
+
 app.use(logger('dev'));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
@@ -27,7 +29,7 @@ app.get('/test', function(req, res) {
     .then(function (User) {
       res.json(User);
     })
-    .then(console.log(req.currentUser.user.name))
+    // .next(console.log(req.currentUser.user.name))
 });
 
 app.post('/user/new', function(req, res) {
@@ -37,8 +39,34 @@ app.post('/user/new', function(req, res) {
     email: req.body.email,
     password: req.body.password,
   })
-  .then(req.currentUser.user = User.findOne({where: {username: req.body.username}}))
-  .then(res.redirect('/test'))
+  .then(setTimeout(function() {
+    req.currentUser.user = User.findAll({where: {username: req.body.username}});
+  }, 300))
+  .then(setTimeout(function() {
+    res.redirect('/session')
+  }, 500))
+});
+
+app.get('/session', function(req, res) {
+  if (req.currentUser.user) {
+    var username = req.currentUser.user.fulfillmentValue[0].username;
+    res.render(path.resolve('views/home.html'), {
+      userName: username,
+    });
+  } else {
+    console.log("NO BDDY");
+  };
+});
+
+app.get('/signup', function(req, res) {
+  res.render(path.resolve('views/index.html'), {
+    string: 'random_value',
+    other: 'value'
+  });
+});
+
+app.get('/userfind', function(req, res) {
+  var success = User.findAll({where: {id: 1}}).then(function (currentUser) { res.json(currentUser[0]) });
 });
 
 app.get('/listings', function(req, res) {
