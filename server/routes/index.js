@@ -7,11 +7,6 @@ module.exports = (app) => {
     message: 'Welcome to the Users API!',
   }));
 
-
-  // app.get('/home', function(req, res) {
-  //   res.sendFile(path.resolve('views/index.ejs'));
-  // });
-
   app.get('/home', function(req, res) {
     res.render(path.resolve('views/index.html'), {
       string: 'random_value',
@@ -22,13 +17,6 @@ module.exports = (app) => {
   app.get("/thetest", function(req, res) {
     res.render(__dirname + "/views/index");
 });
-
-  app.get('/test', function(req, res) {
-    User.findAll()
-      .then(function (User) {
-        res.json(User);
-      });
-  });
 
   app.post('/api/users', usersController.create);
   app.get('/api/users', usersController.list);
