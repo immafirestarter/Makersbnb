@@ -5,6 +5,7 @@ const session = require('client-sessions');
 const path = require('path');
 const app = express();
 const db = require('./server/models')
+const bcrypt = require('bcrypt-nodejs')
 
 
 app.use(session({
@@ -30,11 +31,14 @@ app.get('/test', function(req, res) {
 });
 
 app.post('/user/new', function(req, res) {
+  var salt = bcrypt.genSaltSync(10);
+  var pass = req.body.password;
+  var hash = bcrypt.hashSync(pass, salt);
   User.create({
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hash,
   }).then(function(user) {
     req.session.user = user;
   })
