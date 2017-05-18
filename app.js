@@ -95,3 +95,17 @@ app.get('*', (req, res) => res.status(200).send({
 }));
 
 module.exports = app;
+
+var server = app.listen(8000, function() {
+  console.log("Magic is happening")
+});
+
+exports.closeServer = function() {
+  server.close();
+};
+
+if (!module.parent) {
+  http.createServer(app).listen(process.env.PORT, function(){
+    console.log("Server listening on port " + app.get('port'));
+  });
+}
