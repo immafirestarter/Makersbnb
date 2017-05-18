@@ -31,14 +31,14 @@ app.get('/test', function(req, res) {
 });
 
 app.post('/user/new', function(req, res) {
-  var salt = bcrypt.genSaltSync(10);
-  var pass = req.body.password;
-  var hash = bcrypt.hashSync(pass, salt);
+  console.log(req.body.password);
+  var password = User.generateHash(req.body.password);
+  console.log(password);
   User.create({
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
-    password: hash,
+    password: password,
   }).then(function(user) {
     req.session.user = user;
   })
@@ -80,11 +80,8 @@ app.get('/login', function(req, res) {
 })
 
 app.post('/user/login', function(req, res) {
-  var salt = bcrypt.genSaltSync(10);
-  var pass = req.body.password;
-  var hash = bcrypt.hashSync(pass, salt);
 
-  User.find({ where: { username: req.body.username, password: req.body.password }}).then(function(user) {
+  User.find({ where: { username: req.body.username,  password: req.body.password }}).then(function(user) {
       if (!user) {
         res.redirect('/signup')
       } else {
