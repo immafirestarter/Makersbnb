@@ -7,30 +7,25 @@ module.exports = (app) => {
     message: 'Welcome to the Users API!',
   }));
 
-
-  // app.get('/home', function(req, res) {
-  //   res.sendFile(path.resolve('views/index.ejs'));
-  // });
-
-  app.get('/home', function(req, res) {
+  app.get('/signup', function(req, res) {
     res.render(path.resolve('views/index.html'), {
       string: 'random_value',
       other: 'value'
     });
 });
 
-  app.get("/thetest", function(req, res) {
-    res.render(__dirname + "/views/index");
-});
-
-  app.get('/test', function(req, res) {
-    User.findAll()
-      .then(function (User) {
-        res.json(User);
-      });
+  app.get('/home', function(req, res) {
+    res.render(path.resolve('views/home.html'));
   });
 
-  app.post('/api/users', usersController.create);
+  app.post("/api/users", function(req, res) {
+    'debugger';
+    usersController.create
+    .then(function (req, res) {
+      res.render(path.resolve('views/index.html'))
+    });
+  });
+
   app.get('/api/users', usersController.list);
   app.get('/api/users/:listing', usersController.retrieve);
   app.put('/api/users/:userId', usersController.update);
