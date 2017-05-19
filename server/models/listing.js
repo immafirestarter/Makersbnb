@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     classMethods: {
       associate: (models) => {
         Listing.belongsTo(models.User, {
-          foreignKey: 'content',
+          foreignKey: 'id',
           onDelete: 'CASCADE',
         });
       },

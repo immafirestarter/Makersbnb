@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+
+<div>
+</div>
+
+
+
+
+
+<div id="WelcomeText">
+</div>
+
+<form action="/signup" method="get">
+  <input type="submit" value="Sign Up Now">
+</form>
+
+
+<body>
+  You can find beautiful places to stay below<br>
+  <br><% listing.forEach(function(entry){ %>
+    <div>
+    <%= entry.name %><br>
+    <%= entry.location %><br>
+    <%= entry.description %><br>
+    <%= entry.price %><br>
+  </div><br><br>
+  <% }) %><br>
+
+</body>
+
+</html>

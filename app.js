@@ -4,9 +4,10 @@ const bodyParser = require('body-parser');
 const session = require('client-sessions');
 const path = require('path');
 const app = express();
-const db = require('./server/models')
-const bcrypt = require('bcrypt-nodejs')
-const imgur = require('imgur-node-api'),
+const db = require('./server/models');
+const bcrypt = require('bcrypt-nodejs');
+const imgur = require('imgur-node-api');
+const allListings = function(){Listing.findAll().then(function(listing){res.json(listing)})};
 
 // const salt = bcrypt.genSaltSync(10);
 
@@ -97,7 +98,11 @@ app.get('/listings', function(req, res) {
 });
 
 app.get('/listings/new', function(req, res) {
-  res.render(path.resolve('views/listings.html'));
+  if ( req.session.user ){
+    res.render(path.resolve('views/listings/new.html'));
+  } else {
+    res.render(path.resolve('views/error/noUser.html'));
+  };
 });
 
 app.post('/listings/create', function(req, res) {
@@ -110,6 +115,29 @@ app.post('/listings/create', function(req, res) {
     res.redirect('/welcome')
   }, 500))
 });
+
+app.get('/listings/display', function(req, res) {
+
+  Listing.findAll().then(function(listing){
+
+      res.render(path.resolve('views/listings/display.html'), {
+          listing: listing
+      });
+    });
+});
+
+
+
+
+
+
+    // listings.forEach(function(listing){
+    //   console.log(listing.name);
+    // });
+//});
+    // var list = listing[0].dataValues;
+    // console.log(listing);
+//});
 
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
