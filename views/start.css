@@ -1,15 +1,14 @@
 body {
   background-color: #286DA8;
-
-
+  font: Arial;
 }
 
 .header {
-    background-color: #438496;
-    text-align: center;
-    color: white;
-   text-shadow: 2px 2px black;
-   border: 2px solid black;
+  background-color: #438496;
+  text-align: center;
+  color: white;
+  text-shadow: 1px 2px black;
+  border: 2px solid black;
 }
 
 .frame{
@@ -18,17 +17,35 @@ body {
   padding-top: 300px;
 }
 
-.body{
-  background-color: #438496;
+.form{
+  background-color: #286DA8;
   width: 230px;
   text-align: center;
   display: block;
   margin: 0 auto;
-
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.body input{
+.button{
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(40px);
+
+.form input{
   font-size: 22px;
-text-align: center;
-/*width: 230px;*/
+  text-align: center;
+  /*width: 230px;*/
 }
