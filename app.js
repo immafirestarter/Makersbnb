@@ -7,9 +7,6 @@ const app = express();
 const db = require('./server/models');
 const bcrypt = require('bcrypt-nodejs');
 const imgur = require('imgur-node-api');
-const allListings = function(){Listing.findAll().then(function(listing){res.json(listing)})};
-
-// const salt = bcrypt.genSaltSync(10);
 
 app.use(session({
   cookieName: 'session',
@@ -22,40 +19,41 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
 
-imgur.setClientID('4a4b0f12cc26550');
-
 
 const User = db.User;
 const Listing = db.Listing;
 
+
+//Actual Controller starts below
+
 app.get('/welcome', function(req, res) {
   if (req.session.user) {
-    var currentUser = req.session.user
+    user = req.session.user
+    listing = Listing.findAll({where: {userId: user.id}}).then(function(listing){
     res.render(path.resolve('views/welcome.html'), {
-      username: currentUser.username,
-      name: currentUser.name,
-    });
+      username: req.session.user.username,
+      name: req.session.user.name,
+      listing: listing
+    })});
   } else {
-    res.redirect('/signup')
+    res.render(path.resolve('views/error/noUser.html'))
   };
 });
 
+
 app.get('/test', function(req, res) {
-  User.findAll()
-    .then(function (User) {
+  User.findAll().then(function
+    (User) {
       res.json(User);
-    })
+  });
 });
 
 app.post('/user/new', function(req, res) {
-  var pass = req.body.password;
-  var salt = bcrypt.genSaltSync(10);
-  var hash = bcrypt.hashSync(pass, salt)
   User.create({
     name: req.body.name,
     username: req.body.username,
     email: req.body.email,
-    password: hash
+    password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
   }).then(function(user) {
     req.session.user = user;
   })
@@ -78,9 +76,8 @@ app.get('/login', function(req, res) {
 })
 
 app.post('/user/login', function(req, res) {
-  var pass = req.body.password;
-  var user = User.find({ where: { username: req.body.username}}).then(function(user) {
-    var result = bcrypt.compareSync(pass, user.password);
+  User.find({ where: { username: req.body.username}}).then(function(user) {
+    var result = bcrypt.compareSync(req.body.password, user.password);
       if (result == true){
         req.session.user = user
         res.redirect('/welcome');
@@ -106,38 +103,25 @@ app.get('/listings/new', function(req, res) {
 });
 
 app.post('/listings/create', function(req, res) {
+  user = req.session.user
   Listing.create({
     name: req.body.name,
     description: req.body.description,
     location: req.body.location,
-    price: req.body.price
+    price: req.body.price,
+    userId: user.id
   }).then(setTimeout(function() {
     res.redirect('/welcome')
   }, 500))
 });
 
 app.get('/listings/display', function(req, res) {
-
   Listing.findAll().then(function(listing){
-
-      res.render(path.resolve('views/listings/display.html'), {
-          listing: listing
-      });
+    res.render(path.resolve('views/listings/display.html'), {
+      listing: listing
     });
+  });
 });
-
-
-
-
-
-
-    // listings.forEach(function(listing){
-    //   console.log(listing.name);
-    // });
-//});
-    // var list = listing[0].dataValues;
-    // console.log(listing);
-//});
 
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
