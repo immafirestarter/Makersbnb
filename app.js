@@ -6,6 +6,8 @@ const path = require('path');
 const app = express();
 const db = require('./server/models')
 const bcrypt = require('bcrypt-nodejs')
+const imgur = require('imgur-node-api'),
+
 // const salt = bcrypt.genSaltSync(10);
 
 app.use(session({
@@ -18,6 +20,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
+
+imgur.setClientID('4a4b0f12cc26550');
+
 
 const User = db.User;
 const Listing = db.Listing;
