@@ -1,5 +1,6 @@
 body {
   background-image: url("background.jpg");
+  background-size:100vw;
   font: Arial;
   color: #286DA8;
   font-family: 'Gudea', sans-serif;
@@ -15,6 +16,93 @@ body {
   border: 2px solid black;
 }
 
+.login-container {
+  float:left;
+  width:30%;
+  height:500px;
+  border-right:3px solid #286DA8;
+}
+
+.top-border {
+  background-color: #286DA8;
+  width:90%;
+  height:3px;
+  margin-bottom:50px;
+  /*margin-left: -15px;*/
+}
+
+#listings-container {
+  width:69%;
+  height:300px;
+  float:right;
+}
+
+.listing-header {
+  font-size:40px;
+  padding-left:20px;
+}
+
+.price {
+  font-size:30px;
+  padding-left:50px;
+}
+
+.description {
+  float:right;
+  width:50%;
+  margin-right:50px;
+  font-size:30px;
+  text-align: center;
+}
+
+.info-box {
+  float:left;
+  width:40%;
+}
+
+.bookings {
+  text-align: center;
+}
+
+.listing {
+  width:80%;
+  margin:0 auto;
+  height:270px;
+  padding-bottom:20px;
+  border-bottom:3px solid #286DA8;
+}
+
+.quick-info {
+  padding-left:50px;
+  font-size:20px;
+}
+
+a:hover {
+  color:red;
+}
+
+.logout {
+  margin-left:200px !important;
+}
+
+.logout:hover {
+  background-color:red;
+}
+
+.username-container {
+  width:500px;
+}
+
+.main-container {
+
+  display:block;
+  margin:0 50px;
+  background-color: rgba(255, 255, 255, 0.9);
+  height:100%;
+  padding:10px;
+
+}
+
 .frame{
   width:400px;
   margin:0 auto;
@@ -24,15 +112,63 @@ body {
 
 .form{
   background-color: rgba(255, 255, 255, 0.8);
-  width: 230px;
+  /*position:relative;
+  z-index:10;*/
+  width: 320px;
   text-align: center;
   display: block;
   padding-top:10px;
+  padding-bottom:10px;
   margin: 0 auto;
-  border: 1px solid black;
-  border-radius:15%;
   box-sizing: border-box;
-  width: 100%;
+}
+
+@keyframes move {
+    0% {
+      top: 10px;
+      left: 10px;
+    }
+    25% {
+      top: 100px;
+      left:1000px;
+      -ms-transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
+    50% {
+      top: 600px;
+      left:300px;
+      -ms-transform: rotate(720deg);
+      -webkit-transform: rotate(720deg);
+      transform: rotate(720deg);
+    }
+    75% {
+      top: 300px;
+      left:900px;
+      -ms-transform: rotate(1080deg);
+      -webkit-transform: rotate(1080deg);
+      transform: rotate(1080deg);
+    }
+    100% {
+      top: 500px;
+      left:700px;
+      -ms-transform: rotate(1440deg);
+      -webkit-transform: rotate(1440deg);
+      transform: rotate(1440deg);
+    }
+}
+
+#image-container {
+    position: absolute;
+    top: 500px;
+    left:700px;
+    width:35px;
+    animation-name: move;
+    animation-duration: 10s;
+}
+
+#image-container img {
+  width:35px;
 }
 
 .signup {

@@ -1,3 +1,66 @@
-<p> Welcome <%= name %> <p>
-<p> You are currently logged in as <%= username %> <p>
-<form action="/logout" method="get"><input type="submit" value="Log Out"></form>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Signup</title>
+  <link href="https://fonts.googleapis.com/css?family=Gudea" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="start.css">
+</head>
+
+<body>
+  <div class='main-container'>
+    <div class='login-container'>
+    <div class='username-container'>
+      <h1>  Welcome <%= name %> </h1>
+    </div>
+    <p> You are currently logged in as <%= username %> </p>
+    <form action="/logout" method="get"><input class="button logout" type="submit" value="Log Out"></form>
+    <div class='top-border'></div>
+    <div class='bookings'>
+      <h2>Current bookings:</h2>
+      <h1>YOU HAVE NO BOOKINGS, CHEAPSKATE</h1>
+    </div>
+  </div>
+  <div id='listings-container'>
+    <div class='listing'>
+      <div class='info-box'>
+        <h2 class='listing-header'><a href='https://www.airbnb.co.uk/'>Awful London Flat</a></h2>
+        <h3 class='price'>£30,000 per night</h3>
+        <h4 class='quick-info'>23rd July - 30th July</h4>
+      </div>
+      <div class='description'>
+        <p>This hovel is a trendy, upmarket flat with at least two meters of space to walk
+          around and stretch your legs.  Bonus features include being able to reach the kitchen
+          sink whilst in the bathroom.</p>
+      </div>
+    </div>
+    <div class='listing'>
+      <div class='info-box'>
+        <h2 class='listing-header'><a href='https://www.airbnb.co.uk/'>Desolate Shack</a></h2>
+        <h3 class='price'>£18,000 per night</h3>
+        <h4 class='quick-info'>1st August - 14th August</h4>
+      </div>
+      <div class='description'>
+        <p>This shack is a terrible, awful place to come and stay and why
+        are you even considering renting this place?  Shame on you. You disgraceful
+        human being.  But hey, for London, it's not bad.</p>
+      </div>
+    </div>
+    <div class='listing'>
+      <div class='info-box'>
+        <h2 class='listing-header'><a href='https://www.airbnb.co.uk/'>My Nan's House</a></h2>
+        <h3 class='price'>£45,000 per night</h3>
+        <h4 class='quick-info'>Not sure about dates</h4>
+      </div>
+      <div class='description'>
+        <p>My nan is a lovely woman and I'm sure she wouldn't mind you staying over
+        as long as you're polite to her and tell her that her cooking is okay it'll
+        be fine, probably.</p>
+      </div>
+    </div>
+  </div>
+      <br />
+
+
+  </div>
+</body>
+</html>
