@@ -1,51 +1,64 @@
 body {
-  background-color: #286DA8;
+  background-image: url("background.jpg");
   font: Arial;
+  color: #286DA8;
+  font-family: 'Gudea', sans-serif;
 }
 
 .header {
-  background-color: #438496;
+  background-color: rgba(255, 255, 255, 0.8);
+  width:600px;
+  margin:0 auto;
   text-align: center;
-  color: white;
-  text-shadow: 1px 2px black;
+  color: #286DA8;
+  text-shadow: 1px 2px 3px black;
   border: 2px solid black;
 }
 
 .frame{
-  background-color: white;
+  width:400px;
+  margin:0 auto;
   height: 500px;
-  padding-top: 300px;
+  padding-top: 170px;
 }
 
 .form{
-  background-color: #286DA8;
+  background-color: rgba(255, 255, 255, 0.8);
   width: 230px;
   text-align: center;
   display: block;
+  padding-top:10px;
   margin: 0 auto;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 1px solid black;
+  border-radius:15%;
   box-sizing: border-box;
   width: 100%;
 }
 
+.signup {
+  width:500px;
+}
+
 .button{
-  background-color: #4CAF50;
+  background-color: #286DA8;
   color: white;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  outline:none;
 }
 
 .button:active {
-  background-color: #3e8e41;
+  background-color: darkblue;
   box-shadow: 0 5px #666;
-  transform: translateY(40px);
+  transform: translateY(4px);
+}
 
 .form input{
   font-size: 22px;
+  display: block;
+  margin:15px auto;
   text-align: center;
-  /*width: 230px;*/
 }
