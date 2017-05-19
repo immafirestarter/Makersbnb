@@ -9,6 +9,8 @@ const multer = require('multer');
 const db = require('./server/models')
 const bcrypt = require('bcrypt-nodejs')
 
+app.use(express.static(path.join(__dirname, 'views')));
+
 // const salt = bcrypt.genSaltSync(10);
 
 app.use(session({
