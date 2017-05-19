@@ -95,10 +95,15 @@ app.get('/listings/new', function(req, res) {
   res.render(path.resolve('views/listings.html'));
 });
 
-app.get('/listings/create', function(req, res) {
+app.post('/listings/create', function(req, res) {
   Listing.create({
-    content: "beautiful little cottage, b*tch"
-  })
+    name: req.body.name,
+    description: req.body.description,
+    location: req.body.location,
+    price: req.body.price
+  }).then(setTimeout(function() {
+    res.redirect('/welcome')
+  }, 500))
 });
 
 require('./server/routes')(app);
