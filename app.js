@@ -3,8 +3,10 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const session = require('client-sessions');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 const app = express();
-const db = require('./server/models')
+const db = require('./server/models');
+const multer = require('multer');
 
 
 app.use(session({
@@ -88,7 +90,6 @@ app.post('/user/login', function(req, res) {
     });
 });
 
-
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',
@@ -96,16 +97,6 @@ app.get('*', (req, res) => res.status(200).send({
 
 module.exports = app;
 
-var server = app.listen(8000, function() {
-  console.log("Magic is happening")
+var server = app.listen(3000, function() {
+  console.log("Running Mocha Tests")
 });
-
-exports.closeServer = function() {
-  server.close();
-};
-
-if (!module.parent) {
-  http.createServer(app).listen(process.env.PORT, function(){
-    console.log("Server listening on port " + app.get('port'));
-  });
-}
