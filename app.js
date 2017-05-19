@@ -5,16 +5,9 @@ const session = require('client-sessions');
 const path = require('path');
 const fileUpload = require('express-fileupload');
 const app = express();
-<<<<<<< HEAD
-const db = require('./server/models');
 const multer = require('multer');
-||||||| merged common ancestors
-const db = require('./server/models')
-=======
 const db = require('./server/models')
 const bcrypt = require('bcrypt-nodejs')
-const imgur = require('imgur-node-api'),
->>>>>>> crypt-implementation
 
 // const salt = bcrypt.genSaltSync(10);
 
@@ -28,9 +21,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set('views', __dirname + '/views');
 app.engine('html', require('ejs').renderFile);
-
-imgur.setClientID('4a4b0f12cc26550');
-
 
 const User = db.User;
 const Listing = db.Listing;
@@ -86,7 +76,9 @@ app.get('/login', function(req, res) {
 
 app.post('/user/login', function(req, res) {
   var pass = req.body.password;
+
   var user = User.find({ where: { username: req.body.username}}).then(function(user) {
+    if (user == null) {res.redirect('/signup')};
     var result = bcrypt.compareSync(pass, user.password);
       if (result == true){
         req.session.user = user
@@ -104,10 +96,6 @@ app.get('/listings', function(req, res) {
     });
 });
 
-<<<<<<< HEAD
-||||||| merged common ancestors
-
-=======
 app.get('/listings/new', function(req, res) {
   res.render(path.resolve('views/listings.html'));
 });
@@ -123,7 +111,6 @@ app.post('/listings/create', function(req, res) {
   }, 500))
 });
 
->>>>>>> crypt-implementation
 require('./server/routes')(app);
 app.get('*', (req, res) => res.status(200).send({
   message: 'Welcome to the beginning of nothingness.',

@@ -26,31 +26,32 @@ describe("Checks login page", function() {
 
   describe('Logs In Successfully', function() {
 
-  before(function(done) {
-    browser
-    .fill('input[name="username"]', 'USERNAME')
-    .fill('input[name="password"]', 'password');
-    return browser.pressButton('input[value="Log In"]',done);
-  });
+    before(function(done) {
+      browser
+      .fill('input[name="username"]', 'beef')
+      .fill('input[name="password"]', 'pizza');
+      return browser.pressButton('input[value="Log In"]',done);
+    });
 
-  it('Redirects on successful login', function(done) {
+    it('Redirects on successful login', function(done) {
       browser.assert.url('http://localhost:3000/welcome');
       done();
-  });
+    });
 
-  it('Can log in successfully', function(done) {
-        expect(browser.text("p")).to.equal('HELLO THERE, USERNAME');
-        done();
+    it('Can log in successfully', function(done) {
+      expect(browser.text("p")).to.equal('Welcome Greg You are currently logged in as beef');
+      done();
     });
   });
 });
 
-  describe('Logs In Unsuccessfully', function() {
-    before(function(done){
-      return browser.visit('http://localhost:3000/login',done);
-    });
 
-    describe('Fails login', function() {
+describe('Logs In Unsuccessfully', function() {
+  before(function(done){
+    return browser.visit('http://localhost:3000/login',done);
+  });
+
+  describe('Fails login', function() {
     before(function(done) {
       browser
       .fill('input[name="username"]', 'Ult1mAt3 L337 U53R')
@@ -58,14 +59,14 @@ describe("Checks login page", function() {
       return browser.pressButton('input[value="Log In"]',done);
     });
 
-  it('Redirects to sign up page if invalid login', function(done) {
+    it('Redirects to sign up page if invalid login', function(done) {
       browser.assert.url('http://localhost:3000/signup');
       done();
-  });
+    });
 
-  it('Does not allow invalid login', function(done) {
+    it('Does not allow invalid login', function(done) {
       expect(browser.text("h1")).to.equal('Not signed up already? Sign up now!');
       done();
+    });
   });
-});
 });

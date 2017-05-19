@@ -49,7 +49,7 @@ describe("Signup page", function() {
     });
 
     it('Displays user name', function(done){
-      expect(browser.text("p")).to.equal('HELLO THERE, admin');
+      expect(browser.text("p")).to.equal('Welcome BigAdmin You are currently logged in as admin');
       done();
     });
   });
